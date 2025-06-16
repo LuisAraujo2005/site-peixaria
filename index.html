@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fechamento de Caixa - Peixaria</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🐟 Fechamento de Caixa - Peixaria</h1>
+
+        <!-- Selecao de Bairro e Dia -->
+        <section id="selecao-bairro-dia">
+            <h2>📍 Selecione o Bairro e a Data</h2>
+            <select id="bairro">
+                <option value="">Escolha o Bairro</option>
+                <option value="vermelha">Vermelha</option>
+                <option value="mafua">Mafuá</option>
+                <option value="piaui1">Parque Piauí 1</option>
+                <option value="piaui2">Parque Piauí 2</option>
+            </select>
+            <input type="date" id="data">
+            <button onclick="confirmarBairroDia()">Confirmar</button>
+        </section>
+
+        <!-- Adicionar Peixes -->
+        <section id="adicionar-peixes" class="hidden">
+            <h2>🐠 Adicionar Peixes</h2>
+            <div id="peixes-lista"></div>
+            <button onclick="adicionarPeixe()">+ Adicionar Peixe</button>
+            <button onclick="irParaFechamento()">✅ Ir para Fechamento de Caixa</button>
+        </section>
+
+        <!-- Fechamento de Caixa -->
+        <section id="fechamento" class="hidden">
+            <h2>💰 Fechamento de Caixa</h2>
+            <input type="number" id="trocado" placeholder="Trocado deixado (R$)">
+            <input type="number" id="despesas" placeholder="Outras despesas (R$)">
+            <input type="number" id="especie" placeholder="Espécie recebida (R$)">
+            <input type="number" id="cartao" placeholder="Cartão recebido (R$)">
+            <input type="number" id="pix" placeholder="Pix recebido (R$)">
+            <button onclick="finalizarBairro()">Salvar Bairro</button>
+        </section>
+
+        <!-- Prestação de Contas -->
+        <section id="prestacao-contas" class="hidden">
+            <h2>📑 Prestação de Contas</h2>
+            <div id="detalhes-prestacao"></div>
+            <button onclick="novoBairro()">➕ Adicionar Outro Bairro</button>
+            <button onclick="mostrarRelatorioFinal()">📋 Gerar Relatório Final</button>
+        </section>
+
+        <!-- Relatório Final -->
+        <section id="relatorio-final" class="hidden">
+            <h2>📈 Relatório Final - Sobra de Peixes</h2>
+            <div id="relatorio-conteudo"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
