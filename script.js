@@ -120,14 +120,25 @@ function mostrarRelatorioFinal() {
     document.getElementById('relatorio-final').classList.remove('hidden');
 
     const resultado = {};
+    const totaisPorPonto = {};
 
     bairrosData.forEach(b => {
         let grupo = b.bairro;
         if (grupo === 'piaui1' || grupo === 'piaui2') grupo = 'piaui';
+
+        if (!resultado[grupo]) resultado[grupo] = {};
+        if (!totaisPorPonto[grupo]) totaisPorPonto[grupo] = { vendida: 0, sobra: 0 };
+
         b.peixes.forEach(p => {
-            if (!resultado[grupo]) resultado[grupo] = {};
-            if (!resultado[grupo][p.nome]) resultado[grupo][p.nome] = 0;
-            resultado[grupo][p.nome] += p.sobra;
+            if (!resultado[grupo][p.nome]) {
+                resultado[grupo][p.nome] = { vendida: 0, sobra: 0 };
+            }
+
+            resultado[grupo][p.nome].vendida += p.vendida;
+            resultado[grupo][p.nome].sobra += p.sobra;
+
+            totaisPorPonto[grupo].vendida += p.vendida;
+            totaisPorPonto[grupo].sobra += p.sobra;
         });
     });
 
@@ -135,10 +146,38 @@ function mostrarRelatorioFinal() {
     rel.innerHTML = '';
 
     for (let grupo in resultado) {
-        rel.innerHTML += `<h3>${grupo === 'piaui' ? 'Parque Piauí (1 + 2)' : grupo}</h3><ul>`;
+        const nomeGrupo = grupo === 'piaui' ? 'Parque Piauí (1 + 2)' : grupo;
+        rel.innerHTML += `<h3>${nomeGrupo}</h3><ul>`;
+
         for (let peixe in resultado[grupo]) {
-            rel.innerHTML += `<li>${peixe}: ${resultado[grupo][peixe].toFixed(2)} kg de sobra</li>`;
+            const dados = resultado[grupo][peixe];
+            rel.innerHTML += `<li>${peixe}: ${dados.vendida.toFixed(2)} kg vendidos | ${dados.sobra.toFixed(2)} kg de sobra</li>`;
         }
-        rel.innerHTML += '</ul>';
+
+        rel.innerHTML += `</ul>
+            <p><strong>Total Vendido:</strong> ${totaisPorPonto[grupo].vendida.toFixed(2)} kg</p>
+            <p><strong>Total de Sobra:</strong> ${totaisPorPonto[grupo].sobra.toFixed(2)} kg</p>
+        <hr>`;
     }
+}
+
+
+function voltarParaSelecao() {
+    document.getElementById('adicionar-peixes').classList.add('hidden');
+    document.getElementById('selecao-bairro-dia').classList.remove('hidden');
+}
+
+function voltarParaPeixes() {
+    document.getElementById('fechamento').classList.add('hidden');
+    document.getElementById('adicionar-peixes').classList.remove('hidden');
+}
+
+function voltarParaFechamento() {
+    document.getElementById('prestacao-contas').classList.add('hidden');
+    document.getElementById('fechamento').classList.remove('hidden');
+}
+
+function voltarParaPrestacao() {
+    document.getElementById('relatorio-final').classList.add('hidden');
+    document.getElementById('prestacao-contas').classList.remove('hidden');
 }
